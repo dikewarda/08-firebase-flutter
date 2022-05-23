@@ -3,15 +3,20 @@ import 'package:flutter_firebase/pages/login_page.dart';
 import 'package:flutter_firebase/pages/sign_in.dart';
 
 class FirstScreen extends StatelessWidget {
+  const FirstScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.blue[100], Colors.blue[400]],
+            colors: [
+              Color.fromARGB(255, 255, 255, 255),
+              Color.fromARGB(255, 255, 121, 190),
+            ],
           ),
         ),
         child: Center(
@@ -21,13 +26,13 @@ class FirstScreen extends StatelessWidget {
             children: <Widget>[
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                  imageUrl,
+                  imageUrl!,
                 ),
                 radius: 60,
                 backgroundColor: Colors.transparent,
               ),
-              SizedBox(height: 40),
-              Text(
+              const SizedBox(height: 40),
+              const Text(
                 'NAME',
                 style: TextStyle(
                     fontSize: 15,
@@ -35,14 +40,14 @@ class FirstScreen extends StatelessWidget {
                     color: Colors.black54),
               ),
               Text(
-                name,
-                style: TextStyle(
+                name!,
+                style: const TextStyle(
                     fontSize: 25,
-                    color: Colors.deepPurple,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 20),
-              Text(
+              const SizedBox(height: 20),
+              const Text(
                 'EMAIL',
                 style: TextStyle(
                     fontSize: 15,
@@ -50,24 +55,24 @@ class FirstScreen extends StatelessWidget {
                     color: Colors.black54),
               ),
               Text(
-                email,
-                style: TextStyle(
+                email!,
+                style: const TextStyle(
                     fontSize: 25,
-                    color: Colors.deepPurple,
+                    color: Colors.white,
                     fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 40),
+              const SizedBox(height: 40),
               RaisedButton(
                 onPressed: () {
                   signOutGoogle();
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(builder: (context) {
-                    return LoginPage();
+                    return const LoginPage();
                   }), ModalRoute.withName('/'));
                 },
-                color: Colors.deepPurple,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                color: Color.fromARGB(255, 253, 160, 208),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
                   child: Text(
                     'Sign Out',
                     style: TextStyle(fontSize: 25, color: Colors.white),
@@ -75,7 +80,8 @@ class FirstScreen extends StatelessWidget {
                 ),
                 elevation: 5,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40)),
+                  borderRadius: BorderRadius.circular(40),
+                ),
               )
             ],
           ),

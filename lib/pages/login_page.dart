@@ -1,10 +1,15 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/pages/sign_in.dart';
 import 'package:flutter_firebase/pages/first_screen.dart';
+import 'package:flutter_firebase/pages/home_screen.dart';
+import 'package:flutter_firebase/pages/login_email.dart';
+import 'package:flutter_firebase/pages/sign_in.dart';
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
@@ -12,17 +17,72 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        color: Color.fromARGB(255, 255, 121, 190),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              FlutterLogo(size: 150),
-              SizedBox(height: 50),
+              const FlutterLogo(size: 150),
+              const SizedBox(height: 50),
+              _signInButton2(),
+              const SizedBox(height: 16),
               _signInButton(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _signInButton2() {
+    return OutlineButton(
+      splashColor: Colors.grey,
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) {
+              return StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text('Something went wrong ${snapshot.error}'),
+                    );
+                  } else if (snapshot.hasData) {
+                    return const HomeScreen();
+                  } else {
+                    return const LoginEmail();
+                  }
+                },
+              );
+            },
+          ),
+        );
+      },
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+      highlightElevation: 0,
+      borderSide: const BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Image(image: AssetImage("assets/email.png"), height: 35.0),
+            Padding(
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                'Sign in with Email',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -37,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) {
-                  return FirstScreen();
+                  return const FirstScreen();
                 },
               ),
             );
@@ -46,21 +106,21 @@ class _LoginPageState extends State<LoginPage> {
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
       highlightElevation: 0,
-      borderSide: BorderSide(color: Colors.grey),
+      borderSide: const BorderSide(color: Color.fromARGB(255, 255, 255, 255)),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+          children: const [
+            Image(image: AssetImage("assets/google.png"), height: 35.0),
             Padding(
-              padding: const EdgeInsets.only(left: 10),
+              padding: EdgeInsets.only(left: 10),
               child: Text(
                 'Sign in with Google',
                 style: TextStyle(
                   fontSize: 20,
-                  color: Colors.grey,
+                  color: Color.fromARGB(255, 255, 255, 255),
                 ),
               ),
             )
